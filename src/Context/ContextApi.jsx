@@ -5,6 +5,7 @@ export const contextCreate = createContext();
 
 function ContextApi({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [names, setNames] = useState(planets || []);
 
   useEffect(() => {
     const api = async () => {
@@ -16,7 +17,7 @@ function ContextApi({ children }) {
   }, []);
 
   return (
-    <contextCreate.Provider value={ { planets } }>
+    <contextCreate.Provider value={ { planets, setNames, names } }>
       {children}
     </contextCreate.Provider>
   );

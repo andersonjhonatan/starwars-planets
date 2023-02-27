@@ -2,8 +2,7 @@ import { useContext } from 'react';
 import { contextCreate } from '../../Context/ContextApi';
 
 function Table() {
-  const { planets } = useContext(contextCreate);
-  console.log(planets);
+  const { names } = useContext(contextCreate);
   return (
     <table>
       <thead>
@@ -25,7 +24,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          planets.map((item) => (
+          names.map((item) => (
             <tr key={ item.name }>
               <td>{item.name}</td>
               <td>{item.orbital_period}</td>
