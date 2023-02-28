@@ -4,14 +4,15 @@ import React, { createContext, useEffect, useState } from 'react';
 export const contextCreate = createContext();
 
 function ContextApi({ children }) {
-  const [planets, setPlanets] = useState([]);
-  const [names, setNames] = useState(planets || []);
+  const [planets, setPlanets] = useState();
+  const [names, setNames] = useState([]);
 
   useEffect(() => {
     const api = async () => {
       const response = await fetch('https://swapi.dev/api/planets');
       const data = await response.json();
       setPlanets(data.results);
+      setNames(data.results);
     };
     api();
   }, []);

@@ -9,12 +9,11 @@ function SearchName() {
       item.name.toLowerCase().match(value.toLowerCase())
     ));
     setNames(valor);
-    console.log(valor);
-  }, [planets]);
+  }, [planets, setNames]);
 
   return (
     <div>
-      <h2>Projeto Start Wars - Trybbe </h2>
+      <h2>Projeto Start Wars - Trybe </h2>
       <label>
         <input
           type="text"
