@@ -3,50 +3,26 @@ import { contextCreate } from '../../Context/ContextApi';
 
 function Filtered() {
   const {
-    filtered,
-    setFiltered,
-    planets,
-    setNames,
-    setShouldRender,
+    setSelect,
+    select,
+    twoFilter,
+    setTwoFilter,
+    setIsLoading,
   } = useContext(contextCreate);
 
   const handleClick = useCallback(() => {
-    if (filtered.name && filtered.comparison && filtered.value) {
-      if (filtered.comparison === 'maior que') {
-        return planets.filter((item) => Number(item[filtered
-          .name]) > Number(filtered.value));
-      } if (filtered.comparison === 'menor que') {
-        return planets.filter((item) => Number(item[filtered
-          .name]) < Number(filtered.value));
-      } if (filtered.comparison === 'igual a') {
-        return planets.filter((item) => Number(item[filtered
-          .name]) === Number(filtered
-          .value));
-      }
-    }
-    return planets;
-  }, [filtered, planets]);
-
-  const handleFilter = useCallback(() => {
-    setNames(handleClick);
-    setShouldRender(true);
-  }, [handleClick, setNames, setShouldRender]);
-
-  const handleChange = useCallback(({ target: { name, value } }) => {
-    console.log(name, value);
-    setFiltered((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  }, [setFiltered]);
+    setTwoFilter([...twoFilter, select]);
+    setIsLoading(true);
+  }, [select, twoFilter, setTwoFilter,
+    setIsLoading]);
 
   return (
     <form>
       <select
-        name="name"
-        value={ filtered.name }
+        name="column"
+        value={ select.column }
         data-testid="column-filter"
-        onChange={ handleChange }
+        onChange={ ({ target: { value } }) => setSelect({ ...select, column: value }) }
       >
         <option value="population">
           population
@@ -66,10 +42,12 @@ function Filtered() {
       </select>
       <select
         name="comparison"
-        value={ filtered.comparison }
+        value={ select.comparison }
         data-testid="comparison-filter"
-        onChange={ handleChange }
+        onChange={ ({ target: { value } }) => setSelect({ ...select,
+          comparison: value }) }
       >
+
         <option value="maior que">
           maior que
         </option>
@@ -82,17 +60,17 @@ function Filtered() {
       </select>
       <label>
         <input
-          name="value"
-          value={ filtered.value }
+          name="values"
+          value={ select.values }
           type="number"
           data-testid="value-filter"
-          onChange={ handleChange }
+          onChange={ ({ target: { value } }) => setSelect({ ...select, values: value }) }
         />
       </label>
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ handleFilter }
+        onClick={ handleClick }
       >
         Filtrar
       </button>

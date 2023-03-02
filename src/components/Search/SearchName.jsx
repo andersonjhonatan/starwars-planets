@@ -6,7 +6,7 @@ function SearchName() {
 
   const handleChange = useCallback(({ target: { value } }) => {
     const valor = planets.filter((item) => (
-      item.name.toLowerCase().match(value.toLowerCase())
+      item.name.toLowerCase().includes(value.toLowerCase())
     ));
     setNames(valor);
   }, [planets, setNames]);

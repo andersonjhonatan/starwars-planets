@@ -4,14 +4,16 @@ import React, { createContext, useEffect, useMemo, useState } from 'react';
 export const contextCreate = createContext();
 
 function ContextApi({ children }) {
+  const [shouldRender, setShouldRender] = useState(false);
+  const [loading, setIsLoading] = useState(false);
+  const [twoFilter, setTwoFilter] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [names, setNames] = useState([]);
-  const [filtered, setFiltered] = useState({
-    name: 'population',
+  const [select, setSelect] = useState({
+    column: 'population',
     comparison: 'maior que',
-    value: '0',
+    values: '0',
   });
-  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
     const api = async () => {
@@ -29,17 +31,26 @@ function ContextApi({ children }) {
     planets,
     setNames,
     names,
-    setFiltered,
-    filtered,
+    twoFilter,
+    setTwoFilter,
+    setSelect,
+    select,
     shouldRender,
     setShouldRender,
+    loading,
+    setIsLoading,
   }), [planets,
     setNames,
     names,
-    setFiltered,
-    filtered,
+    select,
+    setSelect,
     shouldRender,
-    setShouldRender]);
+    setShouldRender,
+    loading,
+    setIsLoading,
+    twoFilter,
+    setTwoFilter,
+  ]);
 
   return (
     <contextCreate.Provider
