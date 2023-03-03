@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useState, useEffect } from 'react';
 import { contextCreate } from '../../Context/ContextApi';
 
 function Filtered() {
@@ -7,14 +7,33 @@ function Filtered() {
     select,
     twoFilter,
     setTwoFilter,
-    setIsLoading,
-  } = useContext(contextCreate);
+    setIsLoading } = useContext(contextCreate);
+  /* console.log(select); */
+  /* const defaultOptions = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]; */
+  const [options, setOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+  /* const [coll, setColl] = useState(); */
 
   const handleClick = useCallback(() => {
     setTwoFilter([...twoFilter, select]);
+    setOptions(options.filter((item) => item !== select.column));
     setIsLoading(true);
-  }, [select, twoFilter, setTwoFilter,
-    setIsLoading]);
+  }, [select, twoFilter, setTwoFilter, setIsLoading, options]);
+
+  useEffect(() => {
+    if (options.length) setSelect({ ...select, column: options[0] });
+  }, [setSelect, options]);
 
   return (
     <form>
@@ -24,39 +43,22 @@ function Filtered() {
         data-testid="column-filter"
         onChange={ ({ target: { value } }) => setSelect({ ...select, column: value }) }
       >
-        <option value="population">
-          population
-        </option>
-        <option value="orbital_period">
-          orbital_period
-        </option>
-        <option value="diameter">
-          diameter
-        </option>
-        <option value="rotation_period">
-          rotation_period
-        </option>
-        <option value="surface_water">
-          surface_water
-        </option>
+        {options.map((item) => (
+          <option key={ item } value={ item }>
+            {item}
+          </option>
+        ))}
       </select>
       <select
         name="comparison"
         value={ select.comparison }
         data-testid="comparison-filter"
-        onChange={ ({ target: { value } }) => setSelect({ ...select,
-          comparison: value }) }
+        onChange={ ({ target: { value } }) => setSelect({
+          ...select, comparison: value }) }
       >
-
-        <option value="maior que">
-          maior que
-        </option>
-        <option value="menor que">
-          menor que
-        </option>
-        <option value="igual a">
-          igual a
-        </option>
+        <option value="maior que">maior que</option>
+        <option value="menor que">menor que</option>
+        <option value="igual a">igual a</option>
       </select>
       <label>
         <input
@@ -67,11 +69,7 @@ function Filtered() {
           onChange={ ({ target: { value } }) => setSelect({ ...select, values: value }) }
         />
       </label>
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ handleClick }
-      >
+      <button type="button" data-testid="button-filter" onClick={ handleClick }>
         Filtrar
       </button>
     </form>

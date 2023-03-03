@@ -3,7 +3,42 @@ import { contextCreate } from '../../Context/ContextApi';
 
 function Table() {
   const { names, twoFilter, loading } = useContext(contextCreate);
+  /*  const [data, setData] = useState([]); */
 
+  /* useEffect(() => {
+    const dados = data.reduce((acc, curr) => {
+      if (
+        twoFilter.find(
+          ({ column, comparison, values }) => comparison === 'maior que'
+        && Number(curr[column]) > Number(values),
+        )
+      ) {
+        acc = [...acc, curr];
+        return acc;
+      }
+      if (
+        twoFilter.find(
+          ({ column, comparison, values }) => comparison === 'menor que'
+        && Number(curr[column]) < Number(values),
+        )
+      ) {
+        acc = [...acc, curr];
+        return acc;
+      }
+      if (
+        twoFilter.find(
+          ({ column, comparison, values }) => comparison === 'igual a'
+        && Number(curr[column]) === Number(values),
+        )
+      ) {
+        console.log(curr);
+        acc = [...acc, curr];
+        return acc;
+      }
+      return [];
+    }, []);
+    setData(dados.length ? dados : names);
+  }, [twoFilter, names]); */
   const tratarDados = () => {
     const filtername = names.filter((item) => {
       const filterPLanets = twoFilter.map(({ column, comparison, values }) => {
@@ -22,7 +57,6 @@ function Table() {
     });
     return filtername;
   };
-
   return (
     <div>
       {loading
@@ -54,24 +88,23 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { tratarDados()
-            .map((item) => (
-              <tr key={ item.name }>
-                <td>{item.name}</td>
-                <td>{item.rotation_period}</td>
-                <td>{item.orbital_period}</td>
-                <td>{item.diameter}</td>
-                <td>{item.climate}</td>
-                <td>{item.gravity}</td>
-                <td>{item.terrain}</td>
-                <td>{item.surface_water}</td>
-                <td>{item.population}</td>
-                <td>{item.films}</td>
-                <td>{item.created}</td>
-                <td>{item.edited}</td>
-                <td>{item.url}</td>
-              </tr>
-            ))}
+          {tratarDados().map((item) => (
+            <tr key={ item.name }>
+              <td>{item.name}</td>
+              <td>{item.rotation_period}</td>
+              <td>{item.orbital_period}</td>
+              <td>{item.diameter}</td>
+              <td>{item.climate}</td>
+              <td>{item.gravity}</td>
+              <td>{item.terrain}</td>
+              <td>{item.surface_water}</td>
+              <td>{item.population}</td>
+              <td>{item.films}</td>
+              <td>{item.created}</td>
+              <td>{item.edited}</td>
+              <td>{item.url}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
