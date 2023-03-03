@@ -8,14 +8,7 @@ function Filtered() {
     twoFilter,
     setTwoFilter,
     setIsLoading } = useContext(contextCreate);
-  /* console.log(select); */
-  /* const defaultOptions = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ]; */
+
   const [options, setOptions] = useState([
     'population',
     'orbital_period',
@@ -23,7 +16,6 @@ function Filtered() {
     'rotation_period',
     'surface_water',
   ]);
-  /* const [coll, setColl] = useState(); */
 
   const handleClick = useCallback(() => {
     setTwoFilter([...twoFilter, select]);
@@ -32,7 +24,10 @@ function Filtered() {
   }, [select, twoFilter, setTwoFilter, setIsLoading, options]);
 
   useEffect(() => {
-    if (options.length) setSelect({ ...select, column: options[0] });
+    if (options.length) {
+      setSelect((prevSelect) => ({
+        ...prevSelect, column: options[0] }));
+    }
   }, [setSelect, options]);
 
   return (
