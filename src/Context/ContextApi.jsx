@@ -4,6 +4,7 @@ import React, { createContext, useEffect, useMemo, useState } from 'react';
 export const contextCreate = createContext();
 
 function ContextApi({ children }) {
+  const [removeItem, setRemoveItem] = useState([]);
   const [shouldRender, setShouldRender] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const [twoFilter, setTwoFilter] = useState([]);
@@ -14,6 +15,13 @@ function ContextApi({ children }) {
     comparison: 'maior que',
     values: '0',
   });
+  const [options, setOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   useEffect(() => {
     const api = async () => {
@@ -39,6 +47,10 @@ function ContextApi({ children }) {
     setShouldRender,
     loading,
     setIsLoading,
+    setOptions,
+    options,
+    removeItem,
+    setRemoveItem,
   }), [planets,
     setNames,
     names,
@@ -50,6 +62,10 @@ function ContextApi({ children }) {
     setIsLoading,
     twoFilter,
     setTwoFilter,
+    setOptions,
+    options,
+    removeItem,
+    setRemoveItem,
   ]);
 
   return (

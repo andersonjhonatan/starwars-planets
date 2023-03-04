@@ -1,34 +1,27 @@
-import React, { useContext, useCallback, useState, useEffect } from 'react';
+import React, { useContext, useCallback, useEffect } from 'react';
 import { contextCreate } from '../../Context/ContextApi';
 
 function Filtered() {
   const {
     setSelect,
     select,
+    removeItem,
     twoFilter,
     setTwoFilter,
-    setIsLoading } = useContext(contextCreate);
-
-  const [options, setOptions] = useState([
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ]);
+    setIsLoading, options, setOptions } = useContext(contextCreate);
 
   const handleClick = useCallback(() => {
     setTwoFilter([...twoFilter, select]);
     setOptions(options.filter((item) => item !== select.column));
     setIsLoading(true);
-  }, [select, twoFilter, setTwoFilter, setIsLoading, options]);
+  }, [select, twoFilter, setTwoFilter, setIsLoading, options, setOptions]);
 
   useEffect(() => {
     if (options.length) {
       setSelect((prevSelect) => ({
         ...prevSelect, column: options[0] }));
     }
-  }, [setSelect, options]);
+  }, [setSelect, options, removeItem]);
 
   return (
     <form>

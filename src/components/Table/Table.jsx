@@ -2,43 +2,12 @@ import { useContext } from 'react';
 import { contextCreate } from '../../Context/ContextApi';
 
 function Table() {
-  const { names, twoFilter, loading } = useContext(contextCreate);
-  /*  const [data, setData] = useState([]); */
+  const { names,
+    twoFilter,
+    loading,
+    setTwoFilter,
+    setOptions } = useContext(contextCreate);
 
-  /* useEffect(() => {
-    const dados = data.reduce((acc, curr) => {
-      if (
-        twoFilter.find(
-          ({ column, comparison, values }) => comparison === 'maior que'
-        && Number(curr[column]) > Number(values),
-        )
-      ) {
-        acc = [...acc, curr];
-        return acc;
-      }
-      if (
-        twoFilter.find(
-          ({ column, comparison, values }) => comparison === 'menor que'
-        && Number(curr[column]) < Number(values),
-        )
-      ) {
-        acc = [...acc, curr];
-        return acc;
-      }
-      if (
-        twoFilter.find(
-          ({ column, comparison, values }) => comparison === 'igual a'
-        && Number(curr[column]) === Number(values),
-        )
-      ) {
-        console.log(curr);
-        acc = [...acc, curr];
-        return acc;
-      }
-      return [];
-    }, []);
-    setData(dados.length ? dados : names);
-  }, [twoFilter, names]); */
   const tratarDados = () => {
     const filtername = names.filter((item) => {
       const filterPLanets = twoFilter.map(({ column, comparison, values }) => {
@@ -57,18 +26,40 @@ function Table() {
     });
     return filtername;
   };
+
+  const handleClickRemove = (index) => {
+    const upDate = twoFilter.filter((filter) => filter.column !== index);
+    setTwoFilter(upDate);
+    setOptions((item) => [...item, index]);
+  };
+
+  const handleClearFilters = () => {
+    setTwoFilter([]);
+  };
+
   return (
     <div>
       {loading
         && twoFilter.map(({ column, comparison, values }, index) => (
-          <div key={ index }>
-            <span>
-              {column}
-              {comparison}
-              {values}
-            </span>
+          <div key={ index } data-testid="filter">
+            {column}
+            {comparison}
+            {values}
+            <button
+              onClick={ () => handleClickRemove(column) }
+            >
+              X
+            </button>
           </div>
         ))}
+      {twoFilter.length > 0 && (
+        <button
+          data-testid="button-remove-filters"
+          onClick={ handleClearFilters }
+        >
+          Clear filters
+        </button>
+      )}
       <table>
         <thead>
           <tr>
