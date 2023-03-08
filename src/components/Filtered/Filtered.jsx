@@ -53,7 +53,7 @@ function Filtered() {
           name="values"
           value={ select.values }
           type="number"
-          data-testid="value-filter"
+          data-testid="+"
           onChange={ ({ target: { value } }) => setSelect({ ...select, values: value }) }
         />
       </label>
